@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mybatis.mapper.DynamicSQLMapper">
+    <select id="getEmpByCondition" resultType="Emp">
+        select <include refid="empColumns"></include> from t_emp
+        <trim prefix="where" suffixOverrides="and|or">
+            <if test="empName != null and empName != ''">
+                 emp_name=#{empName} and
+            </if>
+            <if test="age!=null and age!=''">
+                 age=#{age} or
+            </if>
+            <if test="sex!=null and sex!=''">
+                 sex=#{sex} and
+            </if>
+            <if test="email!=null and email!=''">
+                 email=#{email} and
+            </if>
+        </trim>
+    </select>
+    <select id="getEmpByChoose" resultType="emp">
+        select  * from t_emp
+        <where>
+            <choose >
+                <when test="empName != null and empName != ''">
+                    emp_name=#{empName}
+                </when>
+                <when test="age!=null and age!=''">
+                    emp_name=#{empName}
+                </when>
+                <when test="sex!=null and sex!=''">
+                    emp_name=#{empName}
+                </when>
+                <when test="email!=null and email!=''">
+                    emp_name=#{empName}
+                </when>
+                <otherwise>
+                    did=1
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+    <delete id="deleteMoreByArray">
+        delete from t_emp where
+        <foreach collection="eids" item="eid" separator="or" >
+            eid=#{eid}
+        </foreach>
+
+<!--            <foreach collection="eids" item="eid" separator="," open="(" close=")">-->
+<!--                #{eid}-->
+<!--            </foreach>-->
+
+    </delete>
+    <insert id="insertMoreByList">
+        insert into t_emp values
+        <foreach collection="emps" item="emp" separator=",">
+            (null,#{emp.empName},#{emp.age},#{emp.sex},#{emp.email},null)
+        </foreach>
+    </insert>
+    <sql id="empColumns">eid,emp_name,age,sex,email</sql>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 为接口名-->
+<mapper namespace="com.atguigu.mybatis.mapper.UserMapper">
+<!--    id为接口中的方法名-->
+    <insert id="insertUser">
+        insert into  t_user values(null,'李四','123456',23,'男','1234@qq')
+    </insert>
+    <update id="updateUser">
+        update t_user set username='张三' where id=5
+    </update>
+    <delete id="deleteUser">
+        delete from t_user where id=2
+    </delete>
+    <select id="getUserById" resultType="user">
+        select *
+        from t_user where id=3;
+    </select>
+    <select id="queryAllUser" resultType="User">
+        select *
+        from t_user ;
+    </select>
+</mapper>
